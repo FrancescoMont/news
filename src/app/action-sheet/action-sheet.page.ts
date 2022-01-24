@@ -1,44 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActionSheetController } from '@ionic/angular';
-import { Article, NewsService } from '../news.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-action-sheet',
+  templateUrl: './action-sheet.page.html',
+  styleUrls: ['./action-sheet.page.scss'],
 })
-export class HomePage implements OnInit{
-  news: Article[] = [];
-  searching: string;
-  category: string;
+export class ActionSheetPage  {
 
-  constructor(public newsService: NewsService, public actionSheetController: ActionSheetController) {}
-
-  async ngOnInit() {
-      const {articles} = await this.newsService.getNews();
-      console.log('obj:', articles);
-      this.news = articles;
-  };
-  async searchTo(){
-    const {articles} = await this.newsService.searchNews(this.searching);
-      console.log('obj:', articles);
-      this.news = articles;
-  };
-  async searchByCategory(category: string){
-    const {articles} = await this.newsService.getCategory(category);
-    this.news = articles;
-  }
+  constructor(public actionSheetController: ActionSheetController) { }
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Albums',
       cssClass: 'my-custom-class',
       buttons: [{
-        text: 'Sports',
-        icon: 'football-outline',
-        handler: async () => {
-         await this.searchByCategory('sport') ;
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        id: 'delete-button',
+        data: {
+          type: 'delete'
+        },
+        handler: () => {
+          console.log('Delete clicked');
         }
       }, {
         text: 'Share',
@@ -75,4 +60,4 @@ export class HomePage implements OnInit{
     console.log('onDidDismiss resolved with role and data', role, data);
   }
 
-};
+}

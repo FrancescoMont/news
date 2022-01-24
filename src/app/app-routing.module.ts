@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'action-sheet',
+    loadChildren: () => import('./action-sheet/action-sheet.module').then( m => m.ActionSheetPageModule)
+  },
 ];
 
 @NgModule({
